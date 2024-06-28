@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Responses\ApiResponse;
 use App\Models\Categoria;
+use Exception;
 use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
@@ -12,9 +13,13 @@ class CategoriaController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $categorias = Categoria::all();
-        return ApiResponse::success('Lista de categorias', 200, $categorias);
+    {   
+        try{
+            $categorias = Categoria::all();
+            return ApiResponse::success('Lista de categorias', 200, $categorias);
+        }catch(Exception $e){
+            return ApiResponse::error($e->getMessage(), 500);
+        }
     }
 
     /**
