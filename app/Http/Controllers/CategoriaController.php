@@ -6,6 +6,7 @@ use App\Http\Responses\ApiResponse;
 use App\Models\Categoria;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class CategoriaController extends Controller
 {
@@ -22,20 +23,21 @@ class CategoriaController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        try{
+            $request->validate([
+                'nombre' => 'required|unique:categorias'
+            ]); 
+            $categoria = Categoria::create($request->all());
+            return ApiResponse::success("Categoria creada exitosamente",201,$categoria);
+        }catch(ValidationException $e){
+            return ApiResponse::error("Error de validacion".$e->getMessage(), 500);
+        }
     }
 
     /**
@@ -43,7 +45,7 @@ class CategoriaController extends Controller
      */
     public function show(Categoria $categoria)
     {
-        //
+     
     }
 
     /**
