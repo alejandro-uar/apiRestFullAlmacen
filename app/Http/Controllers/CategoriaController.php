@@ -36,7 +36,7 @@ class CategoriaController extends Controller
             $categoria = Categoria::create($request->all());
             return ApiResponse::success("Categoria creada exitosamente",201,$categoria);
         }catch(ValidationException $e){
-            return ApiResponse::error("Error de validacion".$e->getMessage(), 422);
+            return ApiResponse::error("Error de validacion", 422);
         }
     }
 
