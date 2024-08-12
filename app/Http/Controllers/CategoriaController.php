@@ -72,11 +72,14 @@ class CategoriaController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Categoria $categoria)
+    public function destroy($id)
     {
-        //
+        try{
+            $categoria = Categoria::findOrFail($id);
+            $categoria->delete();
+            return ApiResponse::success('Categoria eliminada exitosamente', 200);
+        }catch(ModelNotFoundException $e){
+            return ApiResponse::error('Categoria no encontrada', 404);
+        }
     }
 }
