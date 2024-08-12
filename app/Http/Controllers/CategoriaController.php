@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Responses\ApiResponse;
 use App\Models\Categoria;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use PhpParser\Node\Stmt\TryCatch;
+Use Illuminate\Validation\Rule;
 
 class CategoriaController extends Controller
 {
@@ -43,25 +46,30 @@ class CategoriaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Categoria $categoria)
+    public function show($id)
     {
-     
+        try{
+            $categoria = Categoria::findOrFail($id)->get();
+            return ApiResponse::success("Categoria obtenida exitosamente", 200, $categoria);
+        }catch(ModelNotFoundException $e){
+            return ApiResponse::error("Categoria no encontrada", 404);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Categoria $categoria)
+    public function update(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Categoria $categoria)
-    {
-        //
+        try{
+            $categoria = Categoria::findOrFail($id);
+            $request->validate([
+                'nombre'=>['required', Rule::unique('categorias')->ignore($categoria)]
+            ]);
+            $categoria->update($request->all());
+            return ApiResponse::success('Categoria encontrada', 200, $categoria);
+        }catch(ModelNotFoundException $e){
+            return ApiResponse::error('Categoria no encontrada',404);
+        }catch(Exception $e){
+            return ApiResponse::error('Error: '.$e->getMessage(),422);
+        }
     }
 
     /**
