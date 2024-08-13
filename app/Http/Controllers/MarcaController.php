@@ -4,15 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Marca;
 use Illuminate\Http\Request;
+use App\Http\Responses\ApiResponse;
+use Exception;
 
 class MarcaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   
     public function index()
     {
-        //
+        try{
+            $marcas = Marca::all();
+            return ApiResponse::success('Lista de marcas', 200, $marcas) ;
+        }catch(Exception $e){
+            return ApiResponse::error('Error al obtener la lista de marcas: '.$e->getMessage(), 500);
+        }
     }
 
     /**
