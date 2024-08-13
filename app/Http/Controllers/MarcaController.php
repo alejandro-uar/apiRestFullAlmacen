@@ -6,6 +6,9 @@ use App\Models\Marca;
 use Illuminate\Http\Request;
 use App\Http\Responses\ApiResponse;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class MarcaController extends Controller
 {
@@ -22,31 +25,36 @@ class MarcaController extends Controller
 
     public function store(Request $request)
     {
-        
+        try{
+            $request->validate([
+                'nombre' => 'required|unique:marcas'
+            ]);
+            $marca = Marca::create($request->all());
+            return ApiResponse::success('Marca creada exitosamente', 201, $marca);
+        }catch(ValidationException $e){
+            return ApiResponse::error('Error de validacion', 422);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Marca $marca)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Marca $marca)
+    public function update(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Marca $marca)
-    {
-        //
+        try{
+            $marca = Marca::findOrFail($id);
+            $request->validate([
+                'nombre'=>['required',Rule::unique('marcas')->ignore($marca)]
+            ]);
+            $marca->update($request->all());
+            return ApiResponse::success('Marca actualizada con exito!', 200, $marca);
+        }catch(ModelNotFoundException $e){
+            return ApiResponse::error('Marca no encontrada', 404);
+        }catch(Exception $e){
+            return ApiResponse::error('Error: '.$e->getMessage());
+        }
     }
 
     /**
