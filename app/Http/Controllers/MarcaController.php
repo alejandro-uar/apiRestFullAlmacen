@@ -36,9 +36,14 @@ class MarcaController extends Controller
         }
     }
 
-    public function show(Marca $marca)
+    public function show($id)
     {
-        //
+        try{
+            $marca = Marca::findOrFail($id);
+            return ApiResponse::success("Marca obtenida exitosamente", 200, $marca);
+        }catch(ModelNotFoundException $e){
+            return ApiResponse::error("Marca no fue encontrada", 404);
+        }
     }
 
     public function update(Request $request, $id)
@@ -57,11 +62,14 @@ class MarcaController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Marca $marca)
+    public function destroy($id)
     {
-        //
+        try{
+            $marca = Marca::findOrFail($id);
+            $marca->delete();
+            return ApiResponse::success('Marca eliminada exitosamente', 200);
+        }catch(ModelNotFoundException $e){
+            return ApiResponse::error('Marca no encontrada', 404);
+        }
     }
 }
