@@ -17,19 +17,22 @@ La API proporciona respuestas en formato JSON, asegurando una integración fáci
   - **Descripción:** Devuelve una lista de todos los productos disponibles.
   - **Respuesta:**
     ```
-    [
-      {
-        "id": 1,
-        "nombre": "Producto 1",
-        "descripcion": "Descripción del producto 1",
-        "precio": 100,
-        "categoria_id": 1,
-        "marca_id": 1,
-        "created_at": "2024-01-01T00:00:00.000000Z",
-        "updated_at": "2024-01-01T00:00:00.000000Z"
-      }
-     ...
-    ]
+    {
+        "message": "Productos obtenidos",
+        "status": 200,
+        "error": false,
+        "data": [{
+                "id": 1,
+                "nombre": "Producto 1",
+                "descripcion": "Descripcion del producto 1",
+                "precio": "25000.00",
+                "cantidad_disponible": 10,
+                "categoria_id": 1,
+                "marca_id": 1,
+                "created_at": "2024-08-13T20:33:44.000000Z",
+                "updated_at": "2024-08-13T20:33:44.000000Z"
+            }]
+    }
     ```
 - **Obtener un producto específico**
   - **Método:** `GET`
@@ -38,14 +41,20 @@ La API proporciona respuestas en formato JSON, asegurando una integración fáci
   - **Respuesta:**
     ```
     {
-      "id": 1,
-      "nombre": "Producto 1",
-      "descripcion": "Descripción del producto 1",
-      "precio": 100,
-      "categoria_id": 1,
-      "marca_id": 1,
-      "created_at": "2024-01-01T00:00:00.000000Z",
-      "updated_at": "2024-01-01T00:00:00.000000Z"
+      "message": "Producto obtenido exitosamente!",
+        "status": 200,
+        "error": false,
+        "data": [{
+                "id": 1,
+                "nombre": "Producto 1",
+                "descripcion": "Descripcion del producto 1",
+                "precio": "25000.00",
+                "cantidad_disponible": 10,
+                "categoria_id": 1,
+                "marca_id": 1,
+                "created_at": "2024-08-13T20:33:44.000000Z",
+                "updated_at": "2024-08-13T20:33:44.000000Z"
+            }]
     }
     ```
 - **Crear un nuevo producto**
@@ -58,6 +67,7 @@ La API proporciona respuestas en formato JSON, asegurando una integración fáci
       "nombre": "Producto 3",
       "descripcion": "Descripción del producto 3",
       "precio": 300,
+      "cantidad_disponible": 10,
       "categoria_id": 1,
       "marca_id": 1
     }
@@ -69,6 +79,7 @@ La API proporciona respuestas en formato JSON, asegurando una integración fáci
       "nombre": "Producto 3",
       "descripcion": "Descripción del producto 3",
       "precio": 300,
+      "cantidad_disponible": 10,
       "categoria_id": 1,
       "marca_id": 1,
       "created_at": "2024-01-01T00:00:00.000000Z",
@@ -86,6 +97,7 @@ La API proporciona respuestas en formato JSON, asegurando una integración fáci
       "nombre": "Producto Actualizado",
       "descripcion": "Descripción actualizada del producto",
       "precio": 150,
+      "cantidad_disponible": 10,
       "categoria_id": 1,
       "marca_id": 1
     }
@@ -97,6 +109,7 @@ La API proporciona respuestas en formato JSON, asegurando una integración fáci
       "nombre": "Producto Actualizado",
       "descripcion": "Descripción actualizada del producto",
       "precio": 150,
+      "cantidad_disponible": 10,
       "categoria_id": 1,
       "marca_id": 1,
       "created_at": "2024-01-01T00:00:00.000000Z",
